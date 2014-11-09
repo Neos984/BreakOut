@@ -85,7 +85,7 @@ public class BreakOut  extends GraphicsProgram
 	private boolean started = false;
 	
 	// All of the intergers
-	private int level = 16;
+	private int level = 1;
 	private int score = 0;
 	private int brick = 50;
 	private int multiplier = level;
@@ -406,7 +406,6 @@ public class BreakOut  extends GraphicsProgram
 		if(suicideMode)
 		{
 			vy = 7;
-			vx =-3;
 		}
 		
 		// Make sure it is Ball without a 2
@@ -441,7 +440,6 @@ public class BreakOut  extends GraphicsProgram
 		if(suicideMode)
 		{
 			vy2 = 7;
-			vx2 = -3;
 		}
 			
 		ball2 = new Ball2(300,220,
@@ -457,16 +455,6 @@ public class BreakOut  extends GraphicsProgram
 		{
 			trueScore = false;
 		}
-		if(doubleScore)
-		{
-			multiplier *= 2;
-			trueScore = false;
-		}
-		if(infiniteLives)
-		{
-			lives = 999999;
-			trueScore = false;
-		}
 		if(suicideMode)
 		{
 			level = 9990000;
@@ -477,6 +465,16 @@ public class BreakOut  extends GraphicsProgram
 			}
 			multiplier = 1;
 			trueScore = true;
+		}
+		if(doubleScore)
+		{
+			multiplier *= 2;
+			trueScore = false;
+		}
+		if(infiniteLives)
+		{
+			lives = 999999;
+			trueScore = false;
 		}
 	}
 	
