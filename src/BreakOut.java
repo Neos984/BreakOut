@@ -72,20 +72,20 @@ public class BreakOut  extends GraphicsProgram
 	private GLabel levelCounter;
 	private GLabel livesCounter;
 	
-	/**Font for the text.*/
+	/**Font for the text. #Troll*/
 	Font start = new Font("Comic Sans", Font.BOLD, 15);
 	
 	/** Used in advancing to the next level.*/
 	private boolean isWinner = false;
 	
 	// All of the intergers
-	private int level = 16;
+	private int level = 1;
 	private int score = 0;
 	private int brick = 50;
 	private int multiplier = level;
 	private int numBricksLeft = NUMBER_BRICKS;
 	private int addScore = 1;
-	private int lives = 99999;
+	private int lives = 3;
 	
 	/**Used in generating the color of the bricks*/
 	private RandomGenerator rgen = RandomGenerator.getInstance();
@@ -109,6 +109,11 @@ public class BreakOut  extends GraphicsProgram
 	{
 		
 		addMouseListeners();
+		// For if level is changed in the code.
+				if (level >= 13)
+				{
+					PADDLE_WIDTH = 50;
+				}
 		setup();
 		variables();
 		
@@ -363,11 +368,6 @@ public class BreakOut  extends GraphicsProgram
 	{
 		paddle = new GRect(getWidth() / 2 - PADDLE_WIDTH / 2,
 				 getHeight() - PADDLE_Y_OFFSET, PADDLE_WIDTH, PADDLE_HEIGHT);
-		// For if level is changed in the code.
-		if (level >= 13)
-		{
-			PADDLE_WIDTH = 50;
-		}
 		paddle.setFilled(true);
 		paddle.setFillColor(Color.green);
 		add(paddle);
