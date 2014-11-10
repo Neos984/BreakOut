@@ -121,8 +121,8 @@ public class BreakOut  extends GraphicsProgram
 					PADDLE_WIDTH = 50;
 				}
 		cheats();
-		setup();
 		variables();
+		setup();
 		
 		// Defines the starting text.
 		levelCounter = new GLabel("Level: " + level, 330, 15);
