@@ -55,7 +55,6 @@ public class BreakOut  extends GraphicsProgram
 	/** Delay between ball updates */
 	private static final int ANIMATION_PAUSE = 10;
 	
-	private RandomGenerator rg = new RandomGenerator();
 	/** The Red Ball */
 	private Ball ball;
 	
@@ -78,14 +77,21 @@ public class BreakOut  extends GraphicsProgram
 	/** Used in advancing to the next level.*/
 	private boolean isWinner = false;
 	
+	// Cheats
+	private boolean infiniteLives = false;
+	private boolean doubleScore = false;
+	private boolean trueScore = true;
+	private boolean suicideMode = true;
+	private boolean started = false;
+	
 	// All of the intergers
-	private int level = 16;
+	private int level = 1;
 	private int score = 0;
 	private int brick = 50;
 	private int multiplier = level;
 	private int numBricksLeft = NUMBER_BRICKS;
 	private int addScore = 1;
-	private int lives = 99999;
+	private int lives = 3;
 	
 	/**Used in generating the color of the bricks*/
 	private RandomGenerator rgen = RandomGenerator.getInstance();
@@ -94,7 +100,7 @@ public class BreakOut  extends GraphicsProgram
 	Color set2 = new Color(130, 148, 53);
 	Color set4 = new Color(9,130,210);
 	Color set3 = new Color(240,100,32);
-	Color set5 = new Color(155,0,200);
+	Color set5 = new Color(255,255,200);
 	
 	
 	public static void main(String[] args) {
@@ -109,6 +115,12 @@ public class BreakOut  extends GraphicsProgram
 	{
 		
 		addMouseListeners();
+		// For if level is changed in the code.
+				if (level >= 13)
+				{
+					PADDLE_WIDTH = 50;
+				}
+		cheats();
 		setup();
 		variables();
 		
@@ -148,6 +160,7 @@ public class BreakOut  extends GraphicsProgram
 		// Gameplay starts here.
 		
 		waitForClick();
+		started = true;
 		
 		remove(messageLabel);
 		
@@ -234,20 +247,20 @@ public class BreakOut  extends GraphicsProgram
 			{
 				if(ball2.getY() > APPLICATION_HEIGHT - PADDLE_Y_OFFSET + (PADDLE_HEIGHT / 2))
 					{
-						lives -= 1;
-						if (level <= 3)
-						{
-							brick = 50;
-							numBricksLeft = 50;
-						}
-						if (level >= 4)
-						{
-							brick = 100;
-							numBricksLeft = 100;
-						}
-						messageLabel.setLabel("Lives: " + lives);
-						removeAll();
-						run();
+					lives -= 1;
+					messageLabel.setLabel("Lives: " + lives);
+					if (level <= 3)
+					{
+						brick = 50;
+						numBricksLeft = 50;
+					}
+					if (level >= 4)
+					{
+						brick = 100;
+						numBricksLeft = 100;
+					}
+					removeAll();
+					run();
 				}
 			}
 			
@@ -363,11 +376,6 @@ public class BreakOut  extends GraphicsProgram
 	{
 		paddle = new GRect(getWidth() / 2 - PADDLE_WIDTH / 2,
 				 getHeight() - PADDLE_Y_OFFSET, PADDLE_WIDTH, PADDLE_HEIGHT);
-		// For if level is changed in the code.
-		if (level >= 13)
-		{
-			PADDLE_WIDTH = 50;
-		}
 		paddle.setFilled(true);
 		paddle.setFillColor(Color.green);
 		add(paddle);
@@ -393,6 +401,11 @@ public class BreakOut  extends GraphicsProgram
 		if (level > 15)
 		{
 			vy = 5;
+		}
+		
+		if(suicideMode)
+		{
+			vy = 7;
 		}
 		
 		// Make sure it is Ball without a 2
@@ -423,12 +436,46 @@ public class BreakOut  extends GraphicsProgram
 		{
 			vy2 = 5;
 		}
+		
+		if(suicideMode)
+		{
+			vy2 = 7;
+		}
 			
 		ball2 = new Ball2(300,220,
 				2 * BALL2_RADIUS, 2 * BALL2_RADIUS, vx2, vy2);
 		ball2.setFilled(true);
 		ball2.setFillColor(Color.blue);
 		add(ball2);
+	}
+	
+	public void cheats()
+	{
+		if(level > 1 && started == false)
+		{
+			trueScore = false;
+		}
+		if(suicideMode)
+		{
+			level = 9990000;
+			PADDLE_WIDTH = 50;
+			if(started = false)
+			{
+				multiplier = 1;
+			}
+			multiplier = 1;
+			trueScore = true;
+		}
+		if(doubleScore)
+		{
+			multiplier *= 2;
+			trueScore = false;
+		}
+		if(infiniteLives)
+		{
+			lives = 999999;
+			trueScore = false;
+		}
 	}
 	
 	public void setup()
@@ -591,10 +638,10 @@ public class BreakOut  extends GraphicsProgram
 	public void ending()
 	{
 		messageLabel.setLabel("You Lost... :(");
-		
+		messageLabel.setFont(start);
 			// Red screen of death.
 			setBackground(Color.RED);
-			
+			removeAll();
 			add(messageLabel);
 			add(scoreLabel);
 			add(bricksLeft);
@@ -610,8 +657,14 @@ public class BreakOut  extends GraphicsProgram
 			// Multiplier will stay the same without this.
 			multiplier = level;
 			lives = 3;
-			score = 0;
 			PADDLE_WIDTH = 60;
+			System.out.println("Legit Score: " + trueScore);
+			if(trueScore)
+			{
+				System.out.println("Score: " + score);
+			}
+			score = 0;
+			started = false;
 			waitForClick();
 			removeAll();
 			run();
