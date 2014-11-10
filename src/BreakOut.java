@@ -81,7 +81,11 @@ public class BreakOut  extends GraphicsProgram
 	private boolean infiniteLives = false;
 	private boolean doubleScore = false;
 	private boolean trueScore = true;
+<<<<<<< HEAD
 	private boolean suicideMode = true;
+=======
+	private boolean suicideMode = false;
+>>>>>>> FETCH_HEAD
 	private boolean started = false;
 	
 	// All of the intergers
@@ -121,8 +125,12 @@ public class BreakOut  extends GraphicsProgram
 					PADDLE_WIDTH = 50;
 				}
 		cheats();
+<<<<<<< HEAD
 		setup();
+=======
+>>>>>>> FETCH_HEAD
 		variables();
+		setup();
 		
 		// Defines the starting text.
 		levelCounter = new GLabel("Level: " + level, 330, 15);
@@ -659,11 +667,14 @@ public class BreakOut  extends GraphicsProgram
 			lives = 3;
 			PADDLE_WIDTH = 60;
 			System.out.println("Legit Score: " + trueScore);
+<<<<<<< HEAD
 			if(trueScore)
 			{
 				System.out.println("Score: " + score);
 			}
 			score = 0;
+=======
+>>>>>>> FETCH_HEAD
 			started = false;
 			waitForClick();
 			removeAll();
